@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+<meta charset=utf-8 />
+<title>web-graph</title>
+<script src="lib/cytoscape.js"></script>
+<script src="compiled/web-graph.js"></script>
+<style type="text/css">
+  body { 
+  font: 14px helvetica neue, helvetica, arial, sans-serif;
+}
+
+#cy {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+#info {
+  color: #c88;
+  font-size: 1em;
+  position: absolute;
+  z-index: -1;
+  left: 1em;
+  top: 1em;
+}
+</style>
+</head>
+<body> 
+  <div id="cy"></div>
+</body>
+</html>
