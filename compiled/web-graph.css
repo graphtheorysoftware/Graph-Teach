@@ -1,0 +1,8 @@
+node {
+  background-color: #999999; }
+
+edge {
+  width: 2px; }
+
+node.add-edge-start {
+  background-color: red; }

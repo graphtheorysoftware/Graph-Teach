@@ -1,0 +1,180 @@
+//MIXINS
+= on-small-mobile
+  @media only screen and (max-width: 479px)
+    @content
+
+= on-mobile
+  @media only screen and (max-width: 767px)
+    @content
+
+
+= on-tablet
+  @media only screen and (max-width: 959px)
+    @content
+= on-desktop
+  @media only screen and (min-width: 959px)
+    @content
+
+= just-on-tablet
+  @media only screen and (max-width: 959px) and (min-width: 768px)
+    @content
+
+
+= move-on-hover
+  &:hover
+    position: relative
+    top: -5px
+
+=horizontal-padding($padding)
+  padding-right: $padding
+  padding-left:  $padding
+
+=vertical-padding($padding)
+  padding-top:    $padding
+  padding-bottom: $padding
+
+=vertical-margin($margin)
+  margin-top:    $margin
+  margin-bottom: $margin
+
+=horizontal-margin($margin)
+  margin-left:   $margin
+  margin-right:  $margin
+
+
+=cross-browser($attr, $value)
+  -webkit-#{$attr}: $value
+  -moz-#{$attr}:    $value
+  -ms-#{$attr}:     $value
+  -o-#{$attr}:      $value
+  #{$attr}:         $value
+
+=form-label-look
+  font-size:    $rem-base  - 2
+  font-weight:  bold
+  text-transform: uppercase
+  color: $body-font-color-light
+
+=input-border
+  border:         0
+  border-bottom:  1px dashed $form-input-border-color
+
+=input-focus
+  border-color: $jovoto-color
+  outline:      none
+
+=input-look
+  padding:          $form-input-padding
+
+  background-image: none
+  background-color: $form-input-bg-color
+  color:            $form-input-color
+
+  font-family:      $body-font-family
+  font-size:        $form-font-size
+  line-height:      1
+  +default-placeholder
+
+  &:focus
+    +input-focus
+
+=placeholder
+  &.placeholder
+    @content
+  &:-moz-placeholder
+    @content
+  &::-webkit-input-placeholder
+    @content
+
+=default-placeholder
+  +placeholder
+    font-size:      $form-font-size
+    color:          $gray
+
+
+=centered($width, $height)
+  position:   fixed
+  width:      $width
+  height:     $height
+  top:        50%
+  left:       50%
+  margin-top:   -$width/2
+  margin-left:  -$height/2
+
+
+//relaunch
+= rounded-border($radius: $default-radius)
+  +border-radius($radius)
+  overflow:     hidden
+
+= activatable($color: $body-font-color-light, $active-color: $body-font-color)
+  color: $color
+  &.active, &.current, &:hover
+    color: $active-color
+
+= centered-group($margin-bottom:"1rem")
+  display: table
+  margin:         1rem auto!important
+  margin-bottom:  $margin-bottom!important
+
+= active-bordered($shadow: true)
+  @extend .greyborder
+  display: block
+  +transition( all $transition-time)
+  &:hover
+    @extend .greyborder-active
+    @if $shadow
+      @extend .shadow
+
+= cover-parent
+  position: absolute
+  top:      0
+  right:    0
+  left:     0
+  bottom:   0
+
+= n-lines($line-height:$paragraph-line-height, $lines:4)
+  @extend p
+  height: #{$lines*$line-height}em
+  overflow: hidden
+
+= circle($radius:10px, $background-color: $body-font-color, $color: white)
+  color:        $color
+  background:   $background-color
+  width:        2*$radius
+  height:       2*$radius
+  line-height:  2*$radius
+  text-align:   center
+  +border-radius($radius)
+
+// CAUTION, this mixin does not work, but theoretically it should in combination with fonts/style.scss (== style.css renamed)
+= icomoon($icon)
+  @extend .fonticon-#{$icon}
+  &:before
+    font-family:    'jovoto'
+    speak:          none
+    font-style:     normal
+    font-weight:    normal
+    font-variant:   normal
+    text-transform: none
+    line-height:    1
+
+= greyborder
+  border: 1px solid #cacaca
+
+= arrow-bottom($color, $size)
+  position: relative
+  &:before
+    top: 100%
+    left: 50%
+    border: solid transparent
+    content: " "
+    height: 0
+    width: 0
+    position: absolute
+    border-top-color: $color
+    border-width: $size
+    margin-left: -$size
+    pointer-events: none
+    +transform(scaleY(0.5))
+    +transform-origin(0,0)

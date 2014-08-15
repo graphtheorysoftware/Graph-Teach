@@ -1,0 +1,305 @@
+.align-right
+  text-align: right
+
+.align-left
+  text-align: left
+
+.align-center
+  text-align: center
+
+.color-white
+  color: white
+
+.hover-white:hover
+  color: white
+
+.display-inline-block
+  display: inline-block
+
+.display-block
+  display: block
+
+.float-left
+  float: left
+
+.float-right
+  float: right
+
+
+.relative, .position-relative
+  position: relative
+
+.italic
+  font-style: italic
+
+//fixme use the better name
+.hidden, .display-none
+  display: none
+
+
+//fixme use the better name
+.nowrap, .white-space-nowrap
+  white-space: nowrap
+
+.margin-bottom-zero
+  margin-bottom: 0
+
+
+.list-header, .uppercase
+  text-transform: uppercase
+
+
+.quad-vertical-margin
+  +vertical-margin (4rem)
+
+.double-vertical-margin
+  +vertical-margin (2rem)
+
+.quad-horizontal-margin
+  +horizontal-margin (4rem)
+
+.single-bottom-margin
+  margin-bottom: 1em
+
+.half-bottom-margin
+  margin-bottom: 0.5em
+
+.no-top-margin
+  margin-top: 0
+
+.single-top-margin
+  margin-top: 1em
+
+.double-top-margin
+  margin-top: 2em!important
+
+.double-bottom-margin
+  margin-bottom: 2em
+
+.quad-top-margin
+  margin-top: 4em
+
+
+.single-vertical-margin
+  +vertical-margin (1em)
+
+.double-bottom-padding
+  padding-bottom: 2rem
+
+.no-top-spacing
+  padding-top:  0
+  margin-top:   0
+
+.no-bottom-spacing
+  padding-bottom:  0
+  margin-bottom:   0
+
+.no-margin
+  margin: 0!important
+
+// a vertical list
+.vlist
+  & > *, & > .button
+    display: block
+    margin:  1rem 0 0 0
+    &:first-child
+      margin: 0!important
+    &:after     //clears the floats
+      content:  ""
+      display:  table
+      clear:    both
+    &.vlist-element-gap
+      margin-top: 2rem
+
+  &.vlist-narrow > *
+    margin: 0.5rem 0 0 0
+    &.vlist-element-gap
+      margin-top: 1rem
+
+  &.vlist-spacy > *
+    margin: 2rem 0 0 0
+
+  &.vlist-huge > *
+    margin: 4rem 0 0 0
+
+  &.vlist-tight > *
+    margin: 0
+
+// a horizontal list
+.hlist
+  & > *
+    display: inline-block
+    margin: 0 0.3em 0.3em 0     //0.3em is roughly equal to a single space (' ') width
+    &:last-child
+      margin-right: 0
+
+  &.hlist-spacy > *:not(:last-child)
+    margin-right: 2em
+
+  &.hlist-medium > *:not(:last-child)
+    margin-right: 1rem
+
+  &.hlist-tight > *:not(:last-child)
+    margin-right: 0.5em
+
+  &.hlist-zero > *
+    margin: 0
+
+
+  &.hlist-one-line > *          //leave no bottom spacing
+    margin-bottom: 0
+
+  &.hlist-comma-separated > *:not(:last-child)
+    &:after
+      content: ','
+
+  &.hlist-dot-separated > *:not(:last-child)
+    &:after
+      content: '•'
+      margin-left: 1rem
+
+  &.hlist-vertical-middle > *
+    vertical-align: middle
+
+  &.hlist-vertical-sub > *
+    vertical-align: sub
+
+  &.hlist-vertical-top > *
+    vertical-align: top
+
+  &.hlist-separated
+    > *:not(:last-child)
+      &:after
+        font-weight: 100
+        font-size:   150%
+        content: '|'
+        margin-left: 0.3rem
+        color:  #999
+    &.hlist-tight > *:not(:last-child):after
+      margin-left: 0.5rem
+    &.hlist-medium > *:not(:last-child):after
+      margin-left: 1rem
+
+  &.hlist-border-separated > *:not(:first-child)
+    border-left: 1px solid #999
+
+
+// toggle-on-hover - CSS hide /show of children elements
+
+%visible-state
+  visibility: visible
+  opacity:    1
+  max-height: 9999px
+
+%invisible-state
+  visibility: hidden
+  opacity:    0
+  max-height: 0
+  &.toggle-on-hover-preserve-height
+    max-height: 9999px
+
+$transition-time: 200ms
+.on-hover-container
+  .on-hover-show
+    @extend %invisible-state
+    //+transition(visibility 0s $transition-time, opacity $transition-time, max-height 0s $transition-time)
+  .on-hover-hide
+    @extend %visible-state
+    //+transition(visibility 0s linear 0s, opacity $transition-time, max-height 0s linear 0s)
+
+  &:hover
+    & .on-hover-show
+      @extend %visible-state
+      //+transition(visibility 0s linear 0s, opacity $transition-time, max-height 0s linear 0s)
+    & .on-hover-hide
+      @extend %invisible-state
+      //+transition(visibility 0s $transition-time, opacity $transition-time, max-height 0s $transition-time)
+
+
+// this represents an icon on the left and some content on the right
+// the css might look tricky, but works and fits perfectly good.
+
+// sample markup:
+// div.content-with-icon
+//   div.cwi-icon
+//    img ...
+//  div.cwi-content
+//    some content
+
+// we use "block formatting context" so it is flexible on the icon width
+// more info on: http://www.youtube.com/watch?v=8YtQwv1cUVs
+
+// we should redo it with flex layout after it get good cross-browser support
+
+.content-with-icon
+  //+clearfix
+
+  .cwi-icon
+    display: block
+    vertical-align: top
+    margin-right: 0.3rem
+    float: left
+    img
+      max-width: none
+
+  .cwi-content
+    display:      table-cell    // "block formatting context"
+    vertical-align: top
+    line-height:  1
+    width:        10000px       //makes it fill in the container
+
+  //will make it break on smaller screens
+  &.cwi-responsive
+    .cwi-icon
+      float: none
+
+
+.inline-block-container
+  & > *
+    display: inline-block
+
+.narrow-container
+  max-width:        40em
+  +horizontal-margin (auto)
+
+
+
+.sortable
+  .sortable-handle
+    cursor: move
+    &:before
+      content: " "
+      background-image: url(image-path("grabby-handle.png"))
+      position: absolute
+      top:    10px
+      right:  10px
+      width:  11px
+      height: 11px
+      z-index: 5
+
+.stickable
+  position: relative
+  .stick-to-left, .stick-to-right, .stick-to-bottom, .stick-to-top
+    position: absolute
+  .stick-to-right
+    right:  0
+    top:    0
+    bottom: 0
+  .stick-to-left
+    left:   0
+    top:    0
+    bottom: 0
+  .stick-to-bottom
+    left:   0
+    right:  0
+    bottom: 0
+  .stick-to-top
+    left:   0
+    top:    0
+    right:  0
+
+
+
+.underline-links
+  a:not(.button)
+    text-decoration: underline
