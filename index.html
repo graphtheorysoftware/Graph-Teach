@@ -18,7 +18,17 @@
     </h1>
     Your buddy to graph theory.
     <hr>
-    <a href='javascript:void(0);' id='layout-arbor'>Lay out</a>
+    <div class='vlist vlist-spacy'>
+      <a href='javascript:void(0);' id='layout-arbor'>Lay out</a>
+      <div class='hlist'>
+        <a href='javascript:void(0);' id='save-json' download='graph.json'>Save JSON</a>
+        <input type="text" id='save-file-name' placeholder='File name'>
+      </div>
+      <div class='hlist'>
+        <span>Load JSON</span>
+        <input type="file" id="load-json" name="load-json" />
+      </div>
+    </div>
   </div>
   <div class='cwi-content'>
     <div id='main-panel' class='position-relative'> 

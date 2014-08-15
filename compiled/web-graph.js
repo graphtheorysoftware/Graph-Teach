@@ -38,10 +38,24 @@
         return cy.edgehandles(edgeHandlesDefaults);
       }
     });
-    return $('#layout-arbor').click(function() {
+    $('#layout-arbor').click(function() {
       return cy.layout({
         name: 'arbor'
       });
+    });
+    $('#save-json').click(function() {
+      $(this).attr('download', (($('#save-file-name')).val() || 'graph') + '.json');
+      return $(this).attr('href', "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cy.elements().jsons())));
+    });
+    return $('#load-json').change(function(evt) {
+      var file, reader;
+      file = evt.target.files[0];
+      reader = new FileReader();
+      reader.onload = function(event) {
+        console.log(JSON.parse(event.target.result)['elements']);
+        return cy.add(JSON.parse(event.target.result));
+      };
+      return reader.readAsText(file);
     });
   });
 

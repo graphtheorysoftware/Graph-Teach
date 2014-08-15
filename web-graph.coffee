@@ -38,3 +38,17 @@ $ -> # on dom ready
       cy.edgehandles( edgeHandlesDefaults );
 
   $('#layout-arbor').click -> cy.layout( name: 'arbor' )
+  $('#save-json').click ->    
+    $(this).attr 'download', (( ($ '#save-file-name').val() || 'graph') + '.json')
+    $(this).attr 'href', "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cy.elements().jsons()))
+
+  $('#load-json').change (evt) ->
+    file = evt.target.files[0] 
+    #return unless f.type.match('json')
+    reader = new FileReader()
+    reader.onload = (event) -> 
+      console.log(JSON.parse(event.target.result)['elements'])
+      #cy.load(JSON.parse(event.target.result)['elements'])
+      cy.add(JSON.parse(event.target.result))
+    reader.readAsText file
+
